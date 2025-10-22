@@ -1,5 +1,6 @@
 package me.juansierra.unabshop
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,12 +24,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.auth
+import com.google.firebase.ktx.Firebase
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) { //<------- recordatorio de usar navController: NavController para remplazar los landa del video del profe
+
+    val auth = com.google.firebase.Firebase.auth
+    val user = auth.currentUser
     Scaffold(
         topBar = {
             MediumTopAppBar(
@@ -46,8 +53,12 @@ fun HomeScreen() {
                     IconButton(onClick = { }) {
                         Icon(Icons.Filled.ShoppingCart, "Carrito")
                     }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.AutoMirrored.Filled.ExitToApp, "Carrito")
+                    IconButton(onClick = {
+                        auth.signOut()
+                        navController.navigate("Login") {
+                            popUpTo(0) { inclusive = true }
+                        }}) {
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, "Cerrar sesion")
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -73,6 +84,12 @@ fun HomeScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("HOME SCREEN", fontSize = 30.sp)
+
+                if (user != null){
+                    Text(user.email.toString())
+                } else {
+                    Text("No hay usuario")
+                }
             }
         }
     }
