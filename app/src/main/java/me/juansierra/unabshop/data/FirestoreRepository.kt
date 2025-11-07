@@ -3,7 +3,7 @@ package me.juansierra.unabshop.data
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-data class Producto(
+data class Producto( //el ropositorio para guardar los productos de Firestore
     val id: String = "",
     val nombre: String = "",
     val descripcion: String = "",
@@ -13,10 +13,10 @@ data class Producto(
 )
 
 class FirestoreRepository {
-    private val db = FirebaseFirestore.getInstance() // <- Cambiado
+    private val db = FirebaseFirestore.getInstance() //Codigos de Tema que nos dio el profesor
     private val productosCollection = db.collection("productos")
 
-    // CREATE
+    //el "suspend" es para que, si se detiene, no detenga toda la linea de ejecucion
     suspend fun agregarProducto(producto: Producto): Result<String> {
         return try {
             val docRef = productosCollection.add(producto).await()
@@ -26,7 +26,7 @@ class FirestoreRepository {
         }
     }
 
-    // READ - Todos los productos
+    //leer todos los productos, osea validarlos
     suspend fun obtenerProductos(): Result<List<Producto>> {
         return try {
             val snapshot = productosCollection.get().await()
@@ -39,7 +39,6 @@ class FirestoreRepository {
         }
     }
 
-    // READ - Un producto
     suspend fun obtenerProductoPorId(id: String): Result<Producto?> {
         return try {
             val doc = productosCollection.document(id).get().await()
@@ -50,7 +49,7 @@ class FirestoreRepository {
         }
     }
 
-    // UPDATE
+    //acutalizar la lista y el producto
     suspend fun actualizarProducto(producto: Producto): Result<Unit> {
         return try {
             productosCollection.document(producto.id)
@@ -62,7 +61,6 @@ class FirestoreRepository {
         }
     }
 
-    // DELETE
     suspend fun eliminarProducto(id: String): Result<Unit> {
         return try {
             productosCollection.document(id).delete().await()
@@ -72,7 +70,6 @@ class FirestoreRepository {
         }
     }
 
-    // BÚSQUEDA
     suspend fun buscarProductos(query: String): Result<List<Producto>> {
         return try {
             val snapshot = productosCollection
