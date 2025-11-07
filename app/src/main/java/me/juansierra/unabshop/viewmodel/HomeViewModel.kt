@@ -75,7 +75,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun eliminarProducto(id: String) {
+    fun eliminarProducto(id: String) { //funcion para eliminar productos de la lista, a este punto este archivo es un callcenter
         viewModelScope.launch {
             repository.eliminarProducto(id).fold(
                 onSuccess = { cargarProductos() },
@@ -86,7 +86,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun buscarProductos(query: String) {
+    fun buscarProductos(query: String) {//ultima funcion, buscar productos de la lista, funcion suscrita al plan de llamadas de home screen
         _uiState.value = _uiState.value.copy(searchQuery = query)
 
         if (query.isEmpty()) {

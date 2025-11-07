@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import me.juansierra.unabshop.data.Producto
 
 @Composable
-fun ProductoCard(
+fun ProductoCard( //creacion de un "molde" para los productos, que asi tengas cada uno una estructura similar.
     producto: Producto,
     onEdit: (Producto) -> Unit,
     onDelete: (String) -> Unit
