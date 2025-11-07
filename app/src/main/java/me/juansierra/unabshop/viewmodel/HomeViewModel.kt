@@ -14,18 +14,18 @@ data class HomeUiState(
     val error: String? = null,
     val searchQuery: String = ""
 )
-
+//Esto es lo de listar productos para el homescreen, de aqui se importa para simplificar las cosas en HomeScreen
 class HomeViewModel : ViewModel() {
     private val repository = FirestoreRepository()
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(HomeUiState()) //Un poco de ViewModel de la tarea anterior
     val uiState: StateFlow<HomeUiState> = _uiState
 
     init {
         cargarProductos()
     }
 
-    fun cargarProductos() {
+    fun cargarProductos() { //funcion para cargar productos que luego sera llamada desde home screen
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
@@ -46,13 +46,13 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun agregarProducto(producto: Producto) {
+    fun agregarProducto(producto: Producto) {//funcion para agregar productos que luego tambien sera llamada desde home screen
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             repository.agregarProducto(producto).fold(
                 onSuccess = {
-                    cargarProductos() // Recargar la lista
+                    cargarProductos() // recargar la lista
                 },
                 onFailure = { exception ->
                     _uiState.value = _uiState.value.copy(
@@ -64,7 +64,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun actualizarProducto(producto: Producto) {
+    fun actualizarProducto(producto: Producto) { //para que la lista se valla actualizando, tambien llamada desde home screen
         viewModelScope.launch {
             repository.actualizarProducto(producto).fold(
                 onSuccess = { cargarProductos() },
