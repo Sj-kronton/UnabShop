@@ -62,7 +62,7 @@ fun HomeScreen(
     var productoAEliminar by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
 
-    Scaffold(
+    Scaffold( //El homeScreen actualizado
         topBar = {
             MediumTopAppBar(
                 title = {
@@ -117,7 +117,7 @@ fun HomeScreen(
                 .background(Color(0xFFF5F5F5))
                 .padding(paddingValues)
         ) {
-            // Barra de búsqueda
+            //La barra de búsqueda
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = {
@@ -144,7 +144,7 @@ fun HomeScreen(
                 singleLine = true
             )
 
-            // Información del usuario
+            //informacion del usuario, para lo de firebase auth
             if (user != null) {
                 Card(
                     modifier = Modifier
@@ -172,7 +172,7 @@ fun HomeScreen(
                 }
             }
 
-            // Contenido principal
+            //contenido principal, osea la lista
             when {
                 uiState.isLoading -> {
                     Box(
@@ -257,7 +257,7 @@ fun HomeScreen(
         }
     }
 
-    // Diálogo para agregar/editar producto
+    //dialogo para agregar o editar producto
     if (showDialog) {
         ProductoDialog(
             producto = productoAEditar,
@@ -275,7 +275,7 @@ fun HomeScreen(
         )
     }
 
-    // Diálogo de confirmación de eliminación
+    //dialogo de confirmación para eliminacion
     if (showDeleteDialog && productoAEliminar != null) {
         AlertDialog(
             onDismissRequest = {
