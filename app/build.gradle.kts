@@ -68,4 +68,6 @@ dependencies {
 
     //autenticacion
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.analytics.ktx)
 }
